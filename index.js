@@ -1,16 +1,28 @@
 function setup() {
     noCanvas()
+    frameRate
+}
 
+function draw() {
     const values = []
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 150000; i++) {
         values[i] = random(0, 100)
     }
+    const shape = [500, 300]
 
-    const shape = [2, 5, 3]
-    const data = tf.tensor3d(values, shape, 'int32')
+    const test = tf.tensor2d(values, shape)
 
-    // const data = tf.tensor([0, 0, 127.99999999, 255, 100, 50, 24, 54], [2, 2, 2], 'int32')
+    tf.tidy(() => {
+        test.dispose()
 
-    data.print()
-    //console.log(data)
+        const a = tf.tensor2d(values, shape, 'int32')
+        const b = tf.tensor2d(values, shape, 'int32')
+        const b_t = b.transpose()
+
+        const c = a.matMul(b_t)
+    })
+
+
+
+    console.log(tf.memory().numTensors)
 }
