@@ -51,18 +51,20 @@ function draw() {
         point(px, py)
     }
 
-    let lineX = [0, 1]
-    const ys = predict(lineX)
-    //ys.print()
+    tf.tidy(() => {
+        const lineX = [0, 1]
+        const ys = predict(lineX)
+        let lineY = ys.dataSync()
 
-    let x1 = map(lineX[0], 0, 1, 0, width)
-    let x2 = map(lineX[1], 0, 1, 0, width)
+        let x1 = map(lineX[0], 0, 1, 0, width)
+        let x2 = map(lineX[1], 0, 1, 0, width)
 
-    let lineY = ys.dataSync()
-    let y1 = map(lineY[0], 0, 1, height, 0)
-    let y2 = map(lineY[1], 0, 1, height, 0)
-    strokeWeight(2)
-    line(x1, y1, x2, y2)
 
-    ys.dispose()
+        let y1 = map(lineY[0], 0, 1, height, 0)
+        let y2 = map(lineY[1], 0, 1, height, 0)
+        strokeWeight(2)
+        line(x1, y1, x2, y2)
+    })
+
+
 }
